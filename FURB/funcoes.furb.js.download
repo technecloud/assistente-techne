@@ -1,0 +1,698 @@
+var abrindo_menu=false;
+
+// JavaScript Document
+$(function(){
+	
+	$.browser.mobile = (navigator.userAgent.match(/alcatel|amoi|android|avantgo|blackberry|benq|cell|cricket|docomo|elaine|htc|iemobile|iphone|ipad|ipaq|ipod|j2me|java|midp|mini|mmp|mobi|motorola|nec-|nokia|palm|panasonic|philips|phone|playbook|sagem|sharp|sie-|silk|smartphone|sony|symbian|t-mobile|telus|up\.browser|up\.link|vodafone|wap|webos|wireless|xda|xoom|zte/i))?true:false;
+	if ($.browser.msie) { $('body').addClass('ie'+parseInt($.browser.version)).addClass('ie'); }
+	if ($.browser.mozilla) $('body').addClass('moz');
+	if ($.browser.mobile) $('body').addClass('mobile');
+	
+	// pagina de alerta de enchentes
+	if(top.location.href.indexOf('/alerta/')==27 && $('body').hasClass('body50')==true) {
+		top.location.replace('http://www.furb.br/web/10/portugues/alerta');
+	}
+	
+	// fundo azul devido o rodape
+	$('body').addClass('bgblue');
+	
+	// quando tem formulario
+	if($('#content form').length){
+		$.include('../_inc/jquery/maskedinput.js?2');
+		$.include('inc/form.js?2');
+		if ($('#content form.inscricao_cultura').length) $.include('inc/inscricao_cultura.js');
+	}
+	
+	// sem link
+	$('a[href=#]').click(function() { return false; } );
+	
+	// expande/recolhe publicacoes legais
+	$('#header .tabs3 li').mouseenter(function(){
+		$(this).addClass('hover');
+	});
+	$('#header .tabs3 li').mouseleave(function(){
+		$(this).removeClass('hover');
+	});
+	$('#header .tabs2 > div').mouseenter(function(){
+		if ($.browser.mozilla) $(this).addClass('active').find('ul').addClass('open').show();
+		else $(this).addClass('active').find('ul').addClass('open').show('slide', {direction:'right'});
+	});
+	$('#header .tabs2').mouseleave(function(){
+		if ($(this).find('ul.open').length) {
+			$(this).find('ul.open').hide('slide', {direction:'right'}, function(){
+				$('#header .tabs2 .active').removeClass('active');
+			});
+		}
+	});
+	$('#header .tabs2 > div').mouseleave(function(){
+		$(this).removeClass('active');
+	});
+	
+	// expande o menu das paginas especiais
+	$('.body50 #menu a.expand').click(function(){
+		$('#menu .language').animate({'opacity':'toggle'});
+		$('#menu .menu').animate({'width':'toggle'},function(){
+		
+		});
+		$(this).toggleClass('contract');
+	});
+	
+	// banner principal da home
+	$("#home .banner").each(function(){
+		if($(this).find('object').length==0) $(this).cycle({ fx:'scrollLeft', timeout:4000, delay:0, speed:250, pause:1 });
+	});
+	
+	// balao de noticias da home
+	$('#home .noticias h1 a').mouseenter(function(){
+		$(this).parents('.noticias').css({overflow:'visible'}).find('.balao').animate({ marginTop:"5px", opacity:'toggle' });
+	});
+	$('#home .noticias .balao').mouseleave(function(){
+		$(this).animate({ marginTop:"0px", opacity:'toggle' }).parent('.noticias').css({overflow:'hidden'});
+	});
+	
+	// jcarousel do painel
+	if($('.jcarousel-skin-furb').length) {
+		// jcarousel da livraria e painel
+		$('.home2014 .edifurb .jcarousel-skin-furb, #painel .jcarousel-skin-furb').jcarousel({
+			scroll:5 , wrap:'circular' , initCallback: mycarousel_initCallback
+		});
+		$('.home2015 .edifurb .jcarousel-skin-furb').jcarousel({
+			scroll:3 , wrap:'circular' , initCallback: mycarousel_initCallback
+		});
+		// jcarousel dos cursos
+		$('#home .cursos .jcarousel-skin-furb').jcarousel({
+			scroll:3 , wrap:'circular' , initCallback: mycarousel_initCallback
+		});
+		// jcarousel do vejatambem
+		$('#home .vejatambem .jcarousel-skin-furb').jcarousel({
+			scroll:2 , wrap:'circular' , initCallback:mycarousel_initCallback
+		});
+		// jcarousel nos videos, noticias e eventos da home
+		$('#home .videos .jcarousel-skin-furb, #home .noticias .jcarousel-skin-furb, #home .eventos .jcarousel-skin-furb, .noticias-portal .jcarousel-skin-furb, .noticias-2012 .jcarousel-skin-furb').jcarousel({
+			scroll:1 , wrap:'circular' , initCallback:mycarousel_initCallback
+		});
+		// jcarousel das paginas internas
+		$('.content.left .hscroll .jcarousel-skin-furb').jcarousel({
+			scroll:4 , wrap:null , initCallback: mycarousel_initCallback
+		});
+		// jcarousel menor
+		$('.content.left .hscroll .jcarousel-skin-small').jcarousel({
+			scroll:6 , wrap:null , initCallback: mycarousel_initCallback
+		});
+		if ($('#noticias .hscroll .jcarousel-skin-furb').length) {
+			// jcarousel da pagina de noticias
+			$('#noticias .hscroll .jcarousel-skin-furb').jcarousel({
+				scroll:3 , wrap:null , initCallback: mycarousel_initCallback
+			});
+		} else {
+			// jcarousel das paginas internas
+			$('.content.full').each(function(){
+				if($(this).find('.content.left').length==0) {
+					$(this).addClass('jcarousel-full');
+					$('.content.full .hscroll .jcarousel-skin-furb').jcarousel({
+						scroll:5 , wrap:null , initCallback: mycarousel_initCallback
+					});
+				}
+			});
+		}
+		// mostra as setas quando passa o mouse
+		$('.jcarousel-skin-furb').mouseenter(function(){
+			$(this).find('.jcarousel-prev,.jcarousel-next').addClass('visible');
+		});
+		// esconde as setas quando tira o mouse
+		$('.jcarousel-skin-furb').mouseleave(function(){
+			$(this).find('.jcarousel-prev,.jcarousel-next').removeClass('visible');
+		});
+		// corrige um bug que mostra o primeiro item 4 vezes
+		$('.jcarousel-list li').css("display","none").css("display","block");
+	}
+	
+	// janela popup (sai clicando fora)
+	$("a[rel^='prettyPhoto']").each(function(){
+		if($(this).attr('title')==undefined) $(this).attr('title','');
+	});
+	$("a[rel^='prettyPhoto']").prettyPhoto({
+			theme: 'pp_default',
+			slideshow: 3000,
+			autoplay_slideshow: false,
+			show_title: true,
+			overlay_gallery: false,
+			deeplinking: false,
+			social_tools: ''
+	});
+	
+	// janela popup modal (so sai quando clica no botao fechar)
+	$('a.modal,a[href*="/web/mapa/"]:not(.modal)').die('click').live('click', function(){
+		if (typeof parent !== 'undefined' && typeof parent.open_map_overlay === 'function') {
+			parent.open_map_overlay($(this).attr("href"),"",$(this).attr('title'));
+			return false;
+		}
+		//if($(this).hasClass('modal')==false) $(this).addClass('modal').attr('href',$(this).attr('href')+'?iframe=true&width=950&height=600');
+		if($(this).attr('href').indexOf('iframe=true')<0) $(this).attr('href',$(this).attr('href')+'?iframe=true&width=950&height=600');
+		if($(this).hasClass('modal')==false) $(this).addClass('modal');
+		if($(this).attr('title')==undefined) $(this).attr('title','');
+		$(this).prettyPhoto({
+			allow_resize:false ,
+			theme: 'pp_default',
+			slideshow: 3000,
+			autoplay_slideshow: false,
+			show_title: false,
+			overlay_gallery: false,
+			deeplinking: false,
+			social_tools: '',
+			modal: false 
+			//iframe_markup: '<iframe src="{path}" width="{width}" height="{height}" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>' 
+			//callback: function(){
+			//}
+		}); 
+		title=$(this).attr('title');
+		$.prettyPhoto.open($(this).attr("href"),"",title); 
+		return false; 
+	});
+	
+	// ajusta a largura do ultimo menu
+	$('#menu > div > ul > li:last').addClass('last');
+	
+	// adiciona a seta no nivel superior
+	$('#menu ul .sub2').prepend('<div class="seta"></div>');
+	
+	// ajusta a posicao final do menu
+	$('#menu ul li .sub2').each(function(){
+		offsmenu = $(this).offset().left;
+		offgeral = $('#menu .geral').offset().left;
+		offsmenu = offsmenu-offgeral;
+		if(($(this).width()+offsmenu) > $('#menu .geral').width()) {
+			newleft = $('#menu .geral').width() - $(this).width() - offsmenu ;
+			$(this).css({ 'left':newleft+'px' });
+			$(this).find('.seta').css({ 'background-position':(-newleft+10)+'px 0px' });
+		}
+		$(this).css({ 'visibility':'visible', 'display':'none' });
+	});
+	
+	// mouseover no menu do topo
+	menuBind='mouseenter';//($.browser.mobile)?'click':'mouseenter';
+	$('#menu > div > ul > li').bind(menuBind,function(){
+		var menuenter = $(this);
+		abrindo_menu = true;
+		tmt = setTimeout(function(){
+			menuenter.find('.sub2').animate({ marginTop:"5px", opacity:'toggle' });
+			abrindo_menu = false;
+		}, 300);
+		//if($.browser.mobile && $(this).find('.sub2').length>0) return false;
+	});
+	
+	// mouseout no menu do topo
+	$('#menu ul li').mouseleave(function(){
+		if(abrindo_menu) {
+			clearTimeout(tmt);
+			abrindo_menu=false;
+		} else {
+			$(this).find('.sub2').animate({ marginTop:"0px", opacity:'toggle' });
+			$(this).find('.sub2 .col2 div.child').remove();
+			$(this).find('.sub2 .col2 .banner, .sub2 .col3').show();
+			$(this).find('.sub2 ul li').removeClass('child');
+		}
+	});
+	
+	// mouseover no submenu do topo
+	$('#menu ul li .sub2 li a').hover(function(){
+		vcol2 = $(this).parents('table').find('td.col2');
+		vcol2.html('');
+		submenu = $(this).parent('li').find('div.child');
+		if (submenu.children().length) {
+			$(this).parents('ul').find('li').removeClass('child');
+			$(this).parent('li').addClass('child');
+			submenu.clone().appendTo(vcol2);
+		} else {
+			$(this).parents('ul').find('li').removeClass('child');
+		}
+		if ($(this).parent('li').find('.graduacao,.hidebanner').length || $(this).parents('li').find('.mid1006').length) {
+			if (submenu.children().length>0) $(this).parents('table').find('.col3').hide();
+			else $(this).parents('table').find('.col3').show();
+		} else if (!$(this).parents('table').find('li.child').find('.graduacao,.hidebanner').length) {
+			$(this).parents('table').find('.col3').show();
+		}
+	}, function(){ });
+	
+	// menu fixo ao rolar a tela
+	if (parent.location.href.indexOf('/alerta')<0) {
+		if($('#menu').offset() !== null) {
+			var yPos = $('#menu').offset().top;
+			$(document).bind("scroll", function(){
+				if ($(window).scrollTop() > yPos) {
+					if (!$('body').hasClass('body50')) {
+						$('body').addClass('fixed');
+						$('#menu .logo').fadeIn();
+					}
+				} else {
+					if (!$('body').hasClass('body50')) {
+						$('body').removeClass('fixed');
+						$('#menu .logo').hide();
+					}
+				}
+			});
+		}
+	}
+	
+	// corrige as ancores por causa do menu fixo
+	if (location.href.indexOf('#')>0) {
+		setTimeout(function(){
+			obj = $('a[name='+location.href.slice(location.href.indexOf('#')+1));
+			if (obj.length) {
+				$(window).scrollTop((obj.offset().top)-70);
+			}
+		},500);
+	}
+	$('a[href*=#]').not('[href=#]').click(function(){
+		if ((this.href.indexOf('http://')>=0 && this.href.indexOf('www.furb.br')<0) || this.href.indexOf('https://')>=0) {
+			return true;
+		}
+		obj = $('a[name='+this.href.slice(this.href.indexOf('#')+1));
+		if (obj.length) {
+			$(window).scrollTop((obj.offset().top)-70);
+			return false;
+		}
+	});
+	
+	// breadcrumbs muito extensos
+	$('.toolbar .geral #breadcrumbs').each(function(){
+		wrap_width=$(this).find('.wrap').width();
+		abas_width=$(this).parent('.geral').find('.abas').width()+230;
+		geral_width=$(this).parent('.geral').width();
+		bread_width=geral_width-abas_width;
+		$(this).width(bread_width);
+		if (wrap_width>bread_width) {
+			$(this).find('.more').show();
+			$(this).find('a:last').attr('title',$(this).find('a:last').html());
+		}
+	});
+	
+	// mouseover no menu de abas do topo
+	$('.toolbar .abas > li').mouseenter(function(){
+		var menuenter = $(this);
+		abrindo_menu = true;
+		tmt = setTimeout(function(){
+			menuenter.children('div').animate({ marginTop:"0px", opacity:'toggle' });
+			abrindo_menu = false;
+		}, 300);
+	});
+	
+	// mouseout no menu de abas do topo
+	$('.toolbar .abas > li').mouseleave(function(){
+		if(abrindo_menu) {
+			clearTimeout(tmt);
+			abrindo_menu=false;
+		} else {
+			$(this).children('div').animate({ marginTop:"0px", opacity:'toggle' });
+		}
+	});
+	
+	// abas dos cursos de curta duracao e especializacao
+	$('.toolbar .curta-duracao, .toolbar .especializacao').each(function(){
+		$(this).addClass('colunas'+$(this).find('table tr').children('td').length);
+	});
+	
+	// seta no menu direito (ativo)
+	$('#content .right.menu > ul > li.active').each(function(){
+		if ($(this).children('a.submenu').length<=0) {
+			$(this).prepend('<img src="http://www.furb.br/web/img/arrow-left-menu.png" />');
+			$(this).find('img').animate({ left:"-20px", opacity:'toggle' });
+		}
+	});
+	
+	// seta no submenu direito (ativo)
+	$('#content .right.menu > ul > li.active > ul > li.active').each(function(){
+		if ($(this).children('a.submenu').length<=0) {
+			$(this).prepend('<img src="http://www.furb.br/web/img/arrow-left-menu.png" />');
+			$(this).find('img').animate({ left:"-20px", opacity:'toggle' });
+		}
+	});
+	
+	// clique no submenu
+	$('#content .right.menu a.submenu').click(function(){
+		if ($.browser.msie && parseInt($.browser.version)==7) {
+			$(this).parents('ul').find('li.submenu').toggleClass('active submenu').find('ul').hide();
+			$(this).parent('li').toggleClass('active submenu').find('ul').show();
+		} else {
+			$(this).parents('ul').find('li.submenu').toggleClass('active submenu').find('ul').slideToggle();
+			$(this).parent('li').toggleClass('active submenu').find('ul').slideToggle();
+		}
+		return false;
+	});
+	
+	// submenu ativo
+	$('#content .right.menu li.active li').each(function(){
+		$(this).parents('li.active').addClass('submenu').find('ul').show();
+	});
+	
+	/*/ submenu ativo
+	$('#content .right.menu li.active li.active').each(function(){
+		$(this).parents('li.active').toggleClass('submenu').find('ul').show();
+	});*/
+	
+	// clique no balao
+	$('#content .right.menu a.balao').click(function(){
+		$(this).parents('ul').find('li.active').each(function(){
+			$(this).removeClass('active').children('img:first').hide();
+			$(this).find('div.balao').fadeOut();
+		});
+		$(this).parent('li').addClass('active').find('div.balao').fadeIn();
+		$('html,body').animate({scrollTop: ($(this).offset().top - 50)}); 
+		return false;
+	});
+	
+	// fechar balao
+	$('#content .right.menu ul li div.balao .fechar').click(function(){
+		$(this).parents('li').removeClass('active').find('div.balao').fadeOut();
+		return false;
+	});
+	
+	// abre o balao ativo
+	$('#content .right.menu a.balao.active:first').each(function(){
+		$(this).click();
+	});
+	
+	// tira o traco da ultima noticia/edital
+	$('#noticias .outras ul:last').css({ 'border':'none', 'margin':'0' });
+	$('#editais .outros ul li:last').css({ 'border-bottom':'none', 'padding-bottom':'0' });
+	
+	// exibe mais opcoes na busca do arquivo de noticias
+	$('#noticias .busca .campo .q').mouseenter(function(){
+		$(this).parent('.campo').find('.opcoes').show();
+	});
+	// esconde mais opcoes na busca do arquivo de noticias
+	$('#noticias .busca').mouseleave(function(){
+		$(this).find('.opcoes').hide();
+	});
+	
+	
+	// ajusta o padding do primeiro e ultimo edital
+	$('table.edital').each(function(){ 
+		$(this).find('tbody tr:first').addClass('first');
+		$(this).find('tbody tr:last').addClass('last'); 
+	});
+	$('table.edital a').live({ 
+		mouseenter: function(){ 
+			$(this).parents('tr').addClass('hover'); 
+		}, 
+		mouseleave: function(){ 
+			$(this).parents('tr').removeClass('hover'); 
+		}
+	});
+	
+	// mouseover na tabela
+	$('table.mouseover td').hover(function(){ 
+			$(this).parent('tr').addClass('hover'); 
+		}, function(){ 
+			$(this).parent('tr').removeClass('hover'); 
+	});
+	
+	// balao no corpo do site retirado :not(.right.menu a.balao)
+	$('#content a.balao').live('click',function(){
+		var balao_id=$(this).attr('href');
+		$('div.balao').hide();
+		//$('#content div.balao:not(.right.menu div.balao)').find('a.fechar:first').click();
+		$(this).wrap('<span />');
+		var bspan=$(this).parent('span');
+		$.get('ajax/balao.php',{balao_id:balao_id},function(html){
+			bspan.append(html);
+			$('html,body').animate({scrollTop: (bspan.offset().top - 50)}); 
+		});
+		return false;
+	});
+	
+	// balao no rodape do site
+	$('#painel2 a.balao').click(function(){
+		$('div.balao').hide();
+		$(this).parent('li').find('div.balao').each(function(){
+			$(this).css('top',-($(this).height()+8));
+			$(this).animate({ marginTop:"-5px", opacity:'toggle' });
+		});
+		return false;
+	});
+	
+	// fecha o balao no rodape do site
+	$('#painel2 .balao .fechar').click(function(){
+		$(this).parents('li').find('div.balao').animate({ marginTop:"0px", opacity:'toggle' });
+		return false;
+	});
+	
+	// fechar balao no corpo do site :not(.right.menu .balao)
+	$('#content .balao .fechar').live('click', function(){
+		$(this).parents('div.balao').fadeOut(function(){ 
+			$(this).parent('span').find('a.balao').unwrap('<span />');
+			$(this).remove(); 
+		});
+		return false;
+	});
+	
+	// mouseover nos icones dos servicos online - home dos portais
+	$('div.ico-servicos').mouseenter(function(){ $(this).find('div').slideDown(100); });
+	$('div.ico-servicos').mouseleave(function(){ $(this).find('div').slideUp(100); });
+	
+	// esconde a borda da ultima noticia
+	$('#bottom-block ul').each(function(){ $(this).find('li:last').addClass('last'); });
+	// mostra as noticias do rodape
+	$('#bottom-block.enabled .content').each(function(){
+		$(this).animate({ 'bottom':'-1px' });
+		bbclose=setTimeout("$('#bottom-block .content .fechar').click()",10000);
+	});
+	// esconde as noticias do rodape
+	$('#bottom-block .content .fechar').click(function(){ 
+		$(this).parent('.content').animate({ 'bottom':'-141px' }, 
+			function(){ 
+				$(this).hide(); 
+				$('#bottom-block .botao').show();
+			}
+		); 
+	});
+	$('#bottom-block .botao .abrir').click(function(){
+		$('#bottom-block .content').show().animate({ 'bottom':'-1px' });
+		$(this).parent('.botao').hide();
+	});
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return "";
+        }
+        if (getCookie('exibiu_noticia') != '1') {
+            document.cookie = "exibiu_noticia=1; path=/";
+            if ($('#bottom-block .botao .abrir').length > 0) {
+                $('#bottom-block .botao .abrir').click();
+            }
+        }
+	$('div.fonte:last').css('border-bottom','none');
+	
+	// fecha o balao quando clica fora dele
+	$(document).bind('click', function(e){ 
+		$('iframe.goog-te-menu-frame.skiptranslate:first,#header a.translate span').fadeOut();
+		// se o elemento onde o clique aconteceu n„o tem nenhum div pai com a classe balao
+		if (!$(e.target).parents('div.balao').length) {
+			$('div.balao:visible').each(function(){
+				//if ($(this).hasClass('active')) return false; // nao fecha alguns baloes
+				// tira a classe de menu ativo
+				$(this).parents('li').removeClass('active');
+				$(this).fadeOut(function(){
+					// destroi os baloes chamados por ajax
+					if ($(this).parent('span').length) {
+						$(this).parent('span').find('a.balao').unwrap('<span />');
+						$(this).remove(); 
+					}
+				});
+			});
+		}
+	});
+	
+	// tradutor google 
+	$('.language a.translate').click(function(){
+		//tleft=$(this).offset().left - $('iframe.goog-te-menu-frame.skiptranslate:first').width() + $(this).width() + 30;
+		//ttop=33; //$(this).offset().top + 23;
+		$(this).find('span').fadeIn();
+		$('iframe.goog-te-menu-frame.skiptranslate:first').css({'position':'absolute'}).append('<span class="seta"></span>').fadeIn();
+		return false;
+	});
+	
+	// mouseover no botao do form de busca
+	$('form.busca button img').hover(function(){
+		$(this).attr('src','img/header-button-hover.gif');
+	},function(){
+		$(this).attr('src','img/header-button.gif');
+	});
+	
+	// envia o formulario de busca
+	$('#header form.busca').submit(function(){
+		q=$(this).find('input[name=query]');
+		if (q.val().length>=3) {
+			location.href='http://www.furb.br/web/10/busca/'+escape(q.val());
+		} else {
+			alert('Digite uma palavra com pelo menos 3 letras.');
+			q.focus();
+		}
+		return false;
+	});
+	
+	// botoes de compartilhamento
+	$('a.addthis_button_facebook').click(function(){
+		window.open($(this).attr('href'),'FacebookShareWindow','width=555,height=400');
+		return false;
+	});
+	$('a.addthis_button_twitter').click(function(){
+		window.open($(this).attr('href'),'TwitterShareWindow','width=555,height=400');
+		return false;
+	});
+	
+	// abre o link da furbtv online em popup
+	$('a[href*="/web/furbtv.php"]').click(function(){
+		window.open(this.href,'furbtv','resizable=no,location=no,menubar=no,scrollbars=no,status=no,toolbar=no,fullscreen=no,dependent=no,width=808,height=550,left=200,top=100,status'); 
+		return false;
+	});
+	
+	// link para livros da editora/edifurb
+	$('#editora a.detalhes').click(function(){
+		livro_id=$(this).attr('rel');
+		$.get('ajax/livro.php',{livro_id:livro_id},function(html){
+			$('#editora #detalhes .balao #livro').html(html);
+			$('#editora #detalhes .balao').show();
+		});
+		return false;
+	});
+	$('#editora div.item').click(function(){
+		$(this).find('a:first').click();
+	});
+	// mouseover nos itens da editora
+	$('#editora div.item').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	// abre o livro conforme a url passada
+	if ($('#editora').length) {
+		livro=location.href.substr(location.href.indexOf('#')+1);
+		if (livro) $('#editora a[rel='+livro+']').click();
+	}
+	
+	// iniciacao cientifica
+	if (top.location.href.indexOf('2936/inovacao-e-pesquisa/iniciacao-cientifica/apresentacao/orientadores-de-ic')>0) {
+		$('body').append('<a class="modal orientadores-de-ic" href="themes/2935/"></a>');
+		$('a.orientadores-de-ic').click();
+	}
+	
+	// inscricoes abertas - mouseover nas linhas
+	$('#inscricoes-abertas tr').hover(function(){$(this).addClass('hover')},function(){$(this).removeClass('hover')});
+	// clique na linha
+	$('#inscricoes-abertas td').click(function(){
+		newurl=$(this).parent('tr').find('a:first').attr('href');
+		if (newurl!=undefined) top.location.href=newurl;
+		return false;
+	});
+	
+	// mouseover na linha
+	$('table.anuncios tbody div.expandir').live({
+		'mouseenter' : function(){
+			$(this).parents('tr').addClass('hover');
+		},
+		'mouseleave' : function(){
+			$(this).parents('tr').removeClass('hover');
+		}
+	});
+
+	// clique na linha
+	$('table.anuncios tbody div.expandir, table.anuncios tbody div.recolher').live('click',function(){
+		$(this).parents('tr').each(function(){
+			$(this).toggleClass('active');
+			$(this).find('div').toggleClass('auto');
+			$(this).find('div.expandir').toggle();
+			$(this).find('div.descricao').slideToggle();
+		});
+	});
+	
+	// expandir todos
+	$('table.anuncios a.expandir').click(function(){
+		$(this).parents('table.anuncios').each(function(){
+			$(this).find('tbody tr').addClass('active');
+			$(this).find('tbody div').addClass('auto');
+			$(this).find('tbody div.expandir').hide();
+			$(this).find('tbody div.descricao').show();
+		});
+		return false;
+	});
+	$('table.anuncios a.expandir').live('click',function(){
+		$(this).parents('table.anuncios').each(function(){
+			$(this).find('tbody tr').addClass('active');
+			$(this).find('tbody div').addClass('auto');
+			$(this).find('tbody div.expandir').hide();
+			$(this).find('tbody div.descricao').show();
+		});
+		return false;
+	});
+	
+	// recolher todos
+	$('table.anuncios a.recolher').click(function(){
+		$(this).parents('table.anuncios').each(function(){
+			$(this).find('tbody tr').removeClass('active');
+			$(this).find('tbody div').removeClass('auto');
+			$(this).find('tbody div.expandir').show();
+			$(this).find('tbody div.descricao').hide();
+		});
+		return false;
+	});
+	$('table.anuncios a.recolher').live('click',function(){
+		$(this).parents('table.anuncios').each(function(){
+			$(this).find('tbody tr').removeClass('active');
+			$(this).find('tbody div').removeClass('auto');
+			$(this).find('tbody div.expandir').show();
+			$(this).find('tbody div.descricao').hide();
+		});
+		return false;
+	});
+	
+});
+
+
+// balao no corpo do site
+function balao(menu_id){
+	alert(this);
+}
+
+function mycarousel_initCallback(carousel) {
+    // Disable autoscrolling if the user clicks the prev or next button.
+    carousel.buttonNext.bind('click', function() {
+        carousel.startAuto(0);
+    });
+    carousel.buttonPrev.bind('click', function() {
+        carousel.startAuto(0);
+    });
+    // Pause autoscrolling if the user moves with the cursor over the clip.
+    carousel.clip.hover(function() {
+        carousel.stopAuto();
+    }, function() {
+        carousel.startAuto();
+    });
+};
+
+function removeAccents(strAccents){
+    strAccents = strAccents.split('');
+    strAccentsOut = new Array();
+    strAccentsLen = strAccents.length;
+    var accents = '¿¡¬√ƒ≈‡·‚„‰Â“”‘’’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«Á–ÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸—Òäöüˇ˝éû';
+    var accentsOut = ['A','A','A','A','A','A','a','a','a','a','a','a','O','O','O','O','O','O','O','o','o','o','o','o','o','E','E','E','E','e','e','e','e','e','C','c','D','I','I','I','I','i','i','i','i','U','U','U','U','u','u','u','u','N','n','S','s','Y','y','y','Z','z'];
+    for (var y = 0; y < strAccentsLen; y++) {
+        if (accents.indexOf(strAccents[y]) != -1) {
+            strAccentsOut[y] = accentsOut[accents.indexOf(strAccents[y])];
+        }
+        else
+            strAccentsOut[y] = strAccents[y];
+    }
+    strAccentsOut = strAccentsOut.join('');
+    return strAccentsOut;
+}

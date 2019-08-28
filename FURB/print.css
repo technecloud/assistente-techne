@@ -1,0 +1,28 @@
+/* CSS Document */
+.screen, 
+#header .language,
+#header form, 
+#header .tabs, 
+#header .tabs2, 
+#header .tabs3, 
+#header .logo50anos,
+#menu, 
+.translate,
+.skiptranslate, 
+.toolbar, 
+.right.menu, 
+.botoes,
+#painel, 
+#painel2, 
+#footer img, 
+#bottom-block,
+#noticias .col2 ,
+.content.full .col2 { display:none; }
+.print { display:block; }
+#noticias .creditos { margin-top:22px; }
+
+#header { border-bottom:1px solid #333; padding-bottom:10px; }
+#footer { border-top:1px solid #333; }
+
+#noticias .col1,
+.content.full .col1 { width:100%!important; }

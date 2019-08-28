@@ -1,0 +1,15 @@
+html {
+
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+.chat-button {
+    background-color: #2e1654 !important;
+}
+#messageUs {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
