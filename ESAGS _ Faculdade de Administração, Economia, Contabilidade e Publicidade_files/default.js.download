@@ -1,0 +1,124 @@
+window.matchMedia || (window.matchMedia = function() {
+        "use strict";
+        var a = window.styleMedia || window.media;
+        if (!a) {
+            var b = document.createElement("style"),
+                c = document.getElementsByTagName("script")[0],
+                d = null;
+            b.type = "text/css", b.id = "matchmediajs-test", c.parentNode.insertBefore(b, c), d = "getComputedStyle" in window && window.getComputedStyle(b, null) || b.currentStyle, a = {
+                matchMedium: function(a) {
+                    var c = "@media " + a + "{ #matchmediajs-test { width: 1px; } }";
+                    return b.styleSheet ? b.styleSheet.cssText = c : b.textContent = c, "1px" === d.width
+                }
+            }
+        }
+        return function(b) {
+            return {
+                matches: a.matchMedium(b || "all"),
+                media: b || "all"
+            }
+        }
+}()),
+function() {
+    var a = $("body").data("url"),
+        b = window.matchMedia("(max-width: 979px)");
+    jQuery(".svg").each(function() {
+        var a = jQuery(this),
+            b = a.attr("id"),
+            c = a.attr("class"),
+            d = a.attr("src");
+        jQuery.get(d, function(d) {
+            var e = jQuery(d).find("svg");
+            "undefined" != typeof b && (e = e.attr("id", b)), "undefined" != typeof c && (e = e.attr("class", c + " replaced-svg")), e = e.removeAttr("xmlns:a"), a.replaceWith(e)
+        }, "xml")
+    }), $(document).ready(function() {
+        $(".video-lightbox").magnificPopup({
+            disableOn: 700,
+            type: "iframe",
+            preloader: !1,
+            removalDelay: 500,
+            callbacks: {
+                beforeOpen: function() {
+                    this.st.image.markup = this.st.image.markup.replace("mfp-iframe-scaler", "mfp-iframe-scaler mfp-with-anim"), this.st.mainClass = this.st.el.attr("data-effect")
+                }
+            },
+            closeOnContentClick: !0,
+            midClick: !0,
+            fixedContentPos: !1,
+            closeOnBgClick: !1
+        }), b.matches && $(".header .holder-menu").mCustomScrollbar({
+            scrollButtons: {
+                enable: !1
+            },
+            theme: "light-thick",
+            scrollbarPosition: "outside",
+            autoExpandScrollbar: !0,
+            scrollEasing: "linear",
+            scrollInertia: 200
+        }), $(window).resize(function() {
+            b.matches && $(".header .holder-menu").mCustomScrollbar({
+                scrollButtons: {
+                    enable: !1
+                },
+                theme: "light-thick",
+                scrollbarPosition: "outside",
+                autoExpandScrollbar: !0,
+                scrollEasing: "linear",
+                scrollInertia: 200
+            })
+        })
+    }), $(".search-holder-lightbox .select-busca li").click(function() {
+        $(this).hasClass("active") || ($(".search-holder-lightbox .select-busca li.active").removeClass("active"), $(this).addClass("active"))
+    }), $(".search-holder-lightbox .select-busca li:nth-child(3)").click(function() {
+        var b = $('.search-holder-lightbox form input[type="search"]').val();
+        b = b.replace(/ /g, "+"), urlSearch = a + "graduacao/", window.location.href = urlSearch
+    }), $('.search-holder-lightbox form input[type="submit"]').click(function(b) {
+        if ($(".search-holder-lightbox .select-busca li:nth-child(1)").hasClass("active")) {
+            b.preventDefault();
+            var c = $('.search-holder-lightbox form input[type="search"]').val();
+            c = c.replace(/ /g, "+"), urlSearch = a + "curta-duracao/?search=" + c, window.location.href = urlSearch
+        }
+        if ($(".search-holder-lightbox .select-busca li:nth-child(2)").hasClass("active")) {
+            b.preventDefault();
+            var c = $('.search-holder-lightbox form input[type="search"]').val();
+            c = c.replace(/ /g, "+"), urlSearch = a + "cursos-gratuitos/?search=" + c, window.location.href = urlSearch
+        }
+        if ($(".search-holder-lightbox .select-busca li:nth-child(3)").hasClass("active")) {
+            b.preventDefault();
+            var c = $('.search-holder-lightbox form input[type="search"]').val();
+            c = c.replace(/ /g, "+"), urlSearch = a + "graduacao/", window.location.href = urlSearch
+        }
+    }), $(".header .menus .search-form").click(function() {
+        $(".search-holder-lightbox").fadeIn(300), $('.search-holder-lightbox form input[type="search"]').focus()
+    }), $(".search-holder-lightbox .close-search").click(function() {
+        $(".search-holder-lightbox").fadeOut(300)
+    })
+
+
+
+}.call(this);
+
+$(document).ready(function () {
+    if($('#bolsa').length){
+
+        setTimeout(function() {
+
+            if(location.href.includes('calculadora')) {
+                $('html, body').animate({ 
+                    scrollTop: $('#bolsa').offset().top
+                }, 2000);
+            }  
+        }, 1000);
+    }
+
+    $('.modal .close').on('click',function(){
+        $(".modal iframe").attr('src','');
+        $('.modal').removeClass('active');
+    })
+});
+
+function showModal(){
+    var url = 'https://portal.esags.edu.br/consultacertificados.php5';
+    $(".modal iframe").attr('src',url);
+    $('.modal').addClass('active');
+}

@@ -1,0 +1,167 @@
+(function(){
+  var $busca = $('.header .menus .search-form');
+  var $searchHolder = $('.search-holder-lightbox');
+  var $inputSearch = $searchHolder.children('.input-search');
+  var $conteudo = $('#content');
+
+  var acessibilidade = {
+    teclaZero: 48,
+    combinacao: ['altKey'],
+    montarCombinacao: function(){
+      if(navigator.userAgent.toUpperCase().search("FIREFOX") >=0){
+        this.combinacao.push('shiftKey');
+      }
+      if(navigator.platform.toUpperCase().indexOf('MAC')>=0){
+        this.combinacao.push('ctrlKey');
+      }
+    },
+
+    validar: function(event){
+      if(!this.combinacao.reduce){ //se eu n posso usar reduce, to no IE no window, entao é só a tecla alt mesmo
+          return event.altKey;
+      }
+      return this.combinacao.reduce(function(acc, cur){
+          return event[cur] && acc
+      }, true);
+    },
+
+    decidirComando: function(key){
+      switch(key){
+        case 0:
+          $busca.click();
+          $inputSearch.focusin();
+        break;
+        case 1:
+          if($conteudo.length){
+            $('html, body').scrollTop($conteudo.offset().top);
+          }
+        break;
+        case 2:
+          window.location.replace('http://esags.edu.br/');
+        break;
+        case 4:
+          window.location.replace('http://esags.edu.br/blog');
+        break;
+        case 5:
+          window.location.replace('http://esags.edu.br/acessibilidade');
+        break;
+        case 7:
+          window.location.replace('http://esags.edu.br/contato');
+        break;
+      }
+    },
+
+    fonteGrande: localStorage.getItem('fonteGrande') == 'true',
+    fonteBtn: $('#aumentar-fonte'),
+
+    tamanhoFonte: function(){
+        var $els = $('main .post-infos, .large-text-ctr');
+        if(this.fonteGrande){
+            $els.removeClass('large-text');
+        }else{
+            $els.addClass('large-text');
+        }
+        this.fonteGrande = !this.fonteGrande;
+        localStorage.setItem('fonteGrande', this.fonteGrande);
+    },
+
+    contrasteLigado: localStorage.getItem('contrasteLigado') == 'true',
+    contrasteBtn: $('#aumentar-contraste'),
+    contrasteBtnMb: $('#aumentar-contraste-mobile'),
+
+    inverterCores: function(){
+        $('body').toggleClass('inverse-colors');
+        this.contrasteLigado = !this.contrasteLigado;
+        localStorage.setItem('contrasteLigado', this.contrasteLigado);
+        if( navigator.userAgent.match(/Trident\/7\./)) {
+          function load_script(src, callback) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = callback;
+            document.getElementsByTagName('head')[0].appendChild(s);
+          }
+
+          function invertElement() {
+            var colorProperties = ['color', 'background-color'];
+            var color = null;
+            for (var prop in colorProperties) {
+              prop = colorProperties[prop];
+              if (!$(this).css(prop)) continue;
+              if ($(this).data(prop) != $(this).css(prop)) continue;
+
+              if (($(this).css(prop) === 'rgba(0, 0, 0, 0)') || ($(this).css(prop) === 'transparent')) {
+                if ($(this).is('body')) {
+                  $(this).css(prop, 'black');
+                  continue;
+                } else {
+                  continue;
+                }
+              }
+              color = new RGBColor($(this).css(prop));
+              if (color.ok) {
+                $(this).css(prop, 'rgb(' + (255 - color.r) + ',' + (255 - color.g) + ',' + (255 - color.b) + ')');
+              }
+              color = null;
+            }
+          }
+
+          function setColorData() {
+            var colorProperties = ['color', 'background-color'];
+            for (var prop in colorProperties) {
+              prop = colorProperties[prop];
+              $(this).data(prop, $(this).css(prop));
+            }
+          }
+
+          function invertColors() {
+            $(document).on('DOMNodeInserted', function(e) {
+              var $toInvert = $(e.target).find('*').andSelf();
+            $toInvert.each(setColorData);
+                  $toInvert.each(invertElement);
+              });
+              $('*').each(setColorData);
+              $('*').each(invertElement);
+              $('iframe').each(function () {
+                  $(this).contents().find('*').each(setColorData);
+                  $(this).contents().find('*').each(invertElement);
+              });
+          }
+          load_script('http://www.phpied.com/files/rgbcolor/rgbcolor.js', function () {
+            if (!window.jQuery) load_script('https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', invertColors);
+            else invertColors();
+          });
+        }
+    },
+
+    init: function(){
+      this.montarCombinacao();
+      var self = this;
+      document.addEventListener('keydown', function(e) {
+        if(self.validar(e) && e.keyCode >= self.teclaZero && e.keyCode <= self.teclaZero + 9){
+          self.decidirComando(e.keyCode - self.teclaZero);
+          e.preventDefault();
+          e.stopPropagation();
+        }else if(e.keyCode == 27 ){ //esc
+          $searchHolder.fadeOut();
+          $inputSearch.focusout();
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+      this.fonteBtn.click(this.tamanhoFonte.bind(self));
+      //depois de carregar do localStorage:
+      if(this.fonteGrande){
+          $('main .post-infos').addClass('large-text');
+          $('.large-text-ctr').addClass('large-text');
+      }
+
+      this.contrasteBtnMb.click(this.inverterCores.bind(this));
+      this.contrasteBtn.click(this.inverterCores.bind(this));
+      if(this.contrasteLigado){
+          $('body').addClass('inverse-colors');
+      }
+    }
+  }
+  acessibilidade.init();
+
+})();

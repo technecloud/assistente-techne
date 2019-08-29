@@ -1,0 +1,180 @@
+(function() {
+  var $, Main;
+
+  $ = jQuery;
+
+  Main = {
+    init: function() {
+      this.tracks();
+    },
+    trackEvent: function(cat, act, lab) {
+      return ga('send', 'event', cat, act, lab);
+    },
+    trackPageView: function(url) {
+      return ga('send', 'pageview', url);
+    },
+    tracks: function(){
+        //Topo
+      $('.top-header .left .education a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Barra Topo', 'event_label' : 'Clicou em Strong Educação Executiva' });
+      });
+      $('.top-header .left .esags a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Barra Topo', 'event_label' : 'Strong ESAGS' });
+      });
+      $('.top-header .right .contact a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Barra Topo', 'event_label' : 'Clicou em Contato' });
+      });
+
+      //Menu
+      $('.header .menus .first-menu li a, .header .menus .main-menu li a').click(function(){
+        var location = $(this).text();
+        gtag('event', 'click', { 'event_category' : 'Menu', 'event_label' : location });
+        
+      });
+
+      //Social
+      $('.header .menus .social-menu li a').click(function(){
+        var rede = $(this).data('social');
+        gtag('event', 'click', { 'event_category' : 'Redes Sociais', 'event_label' : rede });
+      });
+
+      //Banners da home
+      $('#banner .slider-home .element:nth-child(1) .infos .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Matricule-se - Vestibular 2016' });
+      });
+      $('#banner .slider-home .element:nth-child(2) .infos .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Conheça - Oportunidade' });
+      });
+      $('#banner .slider-home .element:nth-child(3) .infos .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Matricule-se já - Administração' });
+      });
+
+      //Home geral
+      $('#next .button-holder .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Acesse o Portal ESAGS Next' });
+      });
+      $('#banners .banner:nth-child(1) .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Botão - Cursos Gratuitos' });
+      });
+      $('#banners .banner:nth-child(2) .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Home', 'event_label' : 'Botão - Pós-Graduação e MBA FGV' });
+      });
+
+      //Footer
+      $('.footer .top-footer .menus > ul li a').click(function(){
+        var area = $(this).text();
+        gtag('event', 'click', { 'event_category' : 'Rodapé', 'event_label' : area });
+      });
+
+      //Cursos
+      $('#banner .content .buttons .iframe-lightbox, #banner .content .buttons .button').click(function(){
+        var typeButton = $(this).text();
+        gtag('event', 'click', { 'event_category' : 'Clicou em ' + typeButton,'event_label' : 'Botão Topo' });
+      });
+      $('.main-content .buttons-holder .iframe-lightbox, .main-content .buttons-holder .button').click(function(){
+        var typeButton = $(this).text();
+        gtag('event', 'click', { 'event_category' : 'Clicou em ' + typeButton,'event_label' : 'Apresentação' });
+      });
+      $('#curso h3 .buttons .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Página de curso', 'event_label' : 'Grade curricular' });
+      });
+      $('#video .video-holder a').click(function(){
+        var curso = $('#banner .person img').attr('alt');
+        gtag('event', 'click', { 'event_category' : 'Assistiu ao vídeo', 'event_label' : curso});
+      });
+      $('#video .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Página de curso', 'event_label' : 'Veja os Depoimentos'});
+      });
+
+      //Curta duração
+      $('#content .top .filter .filter-list li').click(function(){
+        var filtro = $(this).find('.text').text();
+        gtag('event', 'click', { 'event_category' : 'Filtro - Curta Duração', 'event_label' : filtro});
+      });
+
+      //Internacional
+      $('#extensao .right .university-list .university').click(function(){
+        var university = $(this).data('university');
+        gtag('event', 'click', { 'event_category' : 'Internacional - Clicou em ' + university, 'event_label' : 'Cursos de extensão' });
+      });
+      $('#idiomas .curso-list .curso').click(function(){
+        var university = $(this).data('university');
+        gtag('event', 'click', { 'event_category' : 'Internacional - Clicou em ' + university, 'event_label' : 'Cursos de Idiomas' });
+      });
+
+      //Unidades
+      $('#unitys .main-unity .unity.santo-andre .content a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Unidades', 'event_label' : 'Santo André'});
+      });
+      $('#unitys .main-unity .unity.santos .content a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Unidades',  'event_label' : 'Santos'});
+      });
+
+      //Vestibular
+      $('.vestibular #banner .content .buttons .iframe-lightbox').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Vestibular', 'event_label' : 'Inscreva-se'});
+      });
+      $('.vestibular #banner .content .buttons .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Vestibular', 'event_label' : 'Aprovados'});
+      });
+      $('.vestibular #unitys .main-unity .unity .content').click(function(){
+        var section = $(this).find('h4').text();
+        gtag('event', 'click', { 'event_category' : 'Vestibular', 'event_label' : section });
+      });
+
+      //Diferenciais
+      $('#diferenciais .diferenciais-list .diferencial').click(function(){
+        var diferencial = $(this).find('.text h5').text();
+        gtag('event', 'click', { 'event_category' : 'Diferenciais', 'event_label' : diferencial });
+      });
+
+      //Institucional
+      $('#certificacoes .certificacoes-list .certificacao .text .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'A Strong ESAGS', 'event_label' : 'Botão - Certificação FGV' });
+      });
+
+      //Blog
+      $('#videos .title .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'EXAGS Next - Veja mais vídeos', 'event_label' : 'ESAGS Next TV' });
+      });
+      $('#content .video-main .tv-infos .next-video a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'EXAGS Next - Assistiu o vídeo', 'event_label' : 'Próximo vídeo' });
+      });
+      $('.esags-tv-index ul.pagination .pagination__previous a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'EXAGS Next TV - Assistiu o vídeo', 'event_label' : 'Anterior' });
+      });
+      $('.esags-tv-index ul.pagination .pagination__next a').click(function(){
+        gtag('event', 'click', { 'event_category' : 'EXAGS Next TV - Assistiu o vídeo', 'event_label' : 'Próximo' });
+      });
+
+      //Biblioteca
+      $('#banner.biblioteca .button').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Biblioteca', 'event_label' : 'Acesse o catálogo online' });
+      });
+      $('#banner .biblio-menu li a').click(function(){
+        var pagina = $(this).text();
+        gtag('event', 'click', { 'event_category' : 'Biblioteca', 'event_label' : pagina });
+      });
+
+      //Contato
+      $('#content .contact .banner-holder .banner .content').click(function(){
+        var formulario = $(this).find('h3').text();
+        gtag('event', 'click', { 'event_category' : 'Contato', 'event_label' : formulario });
+      });
+      $('#content .contact .forms.fale .form-holder input[type="submit"]').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Contato - Fale Conosco', 'event_label' : 'Clicou em Enviar' });
+      });
+      $('#content .contact .forms.ouvidoria .form-holder input[type="submit"]').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Contato - Ouvidoria', 'event_label' : 'Clicou em Enviar' });
+      });
+      $('#content .contact .forms.trabalhe .form-holder input[type="submit"]').click(function(){
+        gtag('event', 'click', { 'event_category' : 'Contato - Trabalhe Conosco', 'event_label' : 'Clicou em Enviar' });
+      });
+    }
+  };
+
+  $(document).ready(function() {
+    return Main.init();
+  });
+
+}).call(this);
