@@ -1,0 +1,16 @@
+nvg40934.profile('9b24d95bde0a58c9d2d5c650d09', '1:4:9:10:12:1000001:27:BR::::326-244-245::45:::1275-1241::::::');
+nvg40934.include('//cm.g.doubleclick.net/pixel?google_nid=navegg_ddp&google_cm&id=41646134717','script');
+nvg40934.include('//pixel.mathtag.com/sync/img?redir=https%3A//sync.navdmp.com/sync%3Fimg%3D1%26mdia%3D%5BMM_UUID%5D','img');
+nvg40934.include('//cms.analytics.yahoo.com/cms?partner_id=NAVEG','img');
+nvg40934.include('//dpm.demdex.net/ibs:dpid=822&dpuuid=41646134717&redir=https%3A//sync.navdmp.com/sync%3Fid%3D41646134717%26adID%3D%24%7BDD_UUID%7D%26img%3D1','img');
+nvg40934.include('//ad.sxp.smartclip.net/sync?type=red&dsp=75','script');
+nvg40934.include('//sync-tm.everesttech.net/upi/pid/DuqQKWX7/?redir=https%3A//sync.navdmp.com/sync%3Fprtid%3D17%26tubid%3D%24%7BTM_USER_ID%7D','script');
+nvg40934.include('https://secure.adnxs.com/getuid?https://sync.navdmp.com/sync?appNx=$UID&img=1','img');
+nvg40934.include('//match.adsrvr.org/track/cmf/generic?ttd_pid=u7695wg&ttd_tpi=1','img');
+nvg40934.include('//pool.admedo.com/aa/y8a2thbi7v8xdodcoa82','script');
+nvg40934.include('//gu.dyntrk.com/dp/navegg.php?pid=nav3gg&uid=41646134717','script');
+nvg40934.include('//tags.bluekai.com/site/31435?id=41646134717&redir=https%3A//sync.navdmp.com/sync%3Fprtid%3D18%26blkid%3D%24_BK_UUID','script');
+nvg40934.include('//trc.taboola.com/sg/navegg/1/cm','script');
+nvg40934.include('//beacon.krxd.net/usermatch.gif?partner=navegg&partner_uid=9b24d95bd8bbd898e1c01f9c609','script');
+nvg40934.include('//sync.smartadserver.com/getuid?url=https%3A%2F%2Fsync.navdmp.com%2Fsync%3Fprtid%3D36%26uid%3D%5Bsas_uid%5D','img');
+nvg40934.doSync('2');
