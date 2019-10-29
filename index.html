@@ -3037,47 +3037,7 @@ var wpcf7 = {"apiSettings":{"root":"https:\/\/www.pucpr.br\/wp-json\/contact-for
 /* <![CDATA[ */
 var wpajax = {"url":"https:\/\/www.pucpr.br\/wp-admin\/admin-ajax.php"};
 /* ]]> */
-</script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/../wiki/pagebuilder/_assets/js/pagebuilder.class.js?ver=1.0.0'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/../wiki/agenda/_assets/js/agenda.class.js?ver=1.0.0'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/../wiki/_assets/js/library.min.js?ver=1.0.0'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/_assets/js/jquery.validate.min.js?ver=1.0.0'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/_assets/js/functions_pucpr.min.js?ver=1.0.0'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-content/themes/pucpr/_assets/js/banners_menu.js?ver=27f78a9702de652cd9f7094a20c54282'></script>
-<script type='text/javascript' src='https://www.pucpr.br/wp-includes/js/wp-embed.min.js?ver=27f78a9702de652cd9f7094a20c54282'></script>
-<script type="text/javascript">
-( function( grecaptcha, sitekey ) {
 
-	var wpcf7recaptcha = {
-		execute: function() {
-			grecaptcha.execute(
-				sitekey,
-				{ action: 'homepage' }
-			).then( function( token ) {
-				var forms = document.getElementsByTagName( 'form' );
-
-				for ( var i = 0; i < forms.length; i++ ) {
-					var fields = forms[ i ].getElementsByTagName( 'input' );
-
-					for ( var j = 0; j < fields.length; j++ ) {
-						var field = fields[ j ];
-
-						if ( 'g-recaptcha-response' === field.getAttribute( 'name' ) ) {
-							field.setAttribute( 'value', token );
-							break;
-						}
-					}
-				}
-			} );
-		}
-	};
-
-	grecaptcha.ready( wpcf7recaptcha.execute );
-
-	document.addEventListener( 'wpcf7submit', wpcf7recaptcha.execute, false );
-
-} )( grecaptcha, '6Ld-EZMUAAAAAICHFHGSLNwEQAQmknD9UqCzRwbm' );
-</script>
 
 <script>
 	jQuery('.openNoticeModal').click(function(event){
