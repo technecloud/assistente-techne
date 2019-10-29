@@ -5,7 +5,7 @@ html {
   height: 100%;
 }
 .chat-button {
-    background-color: #2e1654 !important;
+    background-color: #F0F8FF !important;
     z-index: 9999;
 }
 #messageUs {
