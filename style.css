@@ -1,15 +1,51 @@
-html {
+* {
+    margin: 0;
+    padding:0;
+}
+body, html {
+    width: 100%;
+    overflow-y:hidden;
 
-  padding: 0;
-  margin: 0;
-  height: 100%;
+    height: 100%;
+    font-family: Arial, Tahoma, sans-serif;
 }
-.chat-button {
-    z-index: 9999;
-}
-#messageUs {
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
+body{
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background-image: url(img/faculdade.jpg);
+    
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
+.fundo{
+    display: float;
+    background-color: rgba(117, 116, 116, 0.5);
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1{
+    top: -470px;
+    position: relative;
+   z-index: 1000;
+   color: white;
+   font-size: 55px; 
+}
+
+p{
+    top: -470px;
+    position: relative;
+   z-index: 1000;
+   color: white;
+   font-size: 30px; 
+}
